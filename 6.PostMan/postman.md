@@ -6,7 +6,7 @@
 
 > 首先创建一个工作空间，工作空间用于保存我们创建的数据，并将数据保存到云端：
 
-![image-20240303114923726](D:\text1\6.PostMan\assets\image-20240303114923726.png)
+![image-20240303114923726](assets/image-20240303114923726.png)
 
 
 
@@ -14,17 +14,17 @@
 
 > 此处添加请求：
 
-![image-20240303115045057](D:\text1\6.PostMan\assets\image-20240303115045057.png)
+![image-20240303115045057](assets/image-20240303115045057.png)
 
 > 有请求的方式可选、请求地址填写、可以添加Params请求参数、Headers请求头信息和Body请求体信息：
 
-![image-20240303115230487](D:\text1\6.PostMan\assets\image-20240303115230487.png)
+![image-20240303115230487](assets/image-20240303115230487.png)
 
 > 比如我这里访问入门程序的localhost:8080/hello，就会返回字符串信息：
 
-![image-20240303115428637](D:\text1\6.PostMan\assets\image-20240303115428637.png)
+![image-20240303115428637](assets/image-20240303115428637.png)
 
 > 保存这次请求，ctrl+s，输入保存的请求名称，下面的是组织名可以理解为文件夹给请求归类的：
 
-![image-20240303115644439](D:\text1\6.PostMan\assets\image-20240303115644439.png)
+![image-20240303115644439](assets/image-20240303115644439.png)
 
