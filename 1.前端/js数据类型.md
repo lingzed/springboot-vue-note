@@ -36,6 +36,6 @@ var a;
 console.log(typeof a);
 ```
 
-![image-20231208152329477](D:\text1\1.前端\assets\image-20231208152329477.png)
+![image-20231208152329477](assets/image-20231208152329477.png)
 
 > 为什么typeof null返回的不是null而是object，这是因为在早期的的js种实现的一个bug被沿用至今

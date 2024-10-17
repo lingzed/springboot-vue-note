@@ -30,7 +30,7 @@ console.log(arr);
 console.log(arr1[2]);
 ```
 
-![image-20231211170300908](D:\text1\1.前端\assets\image-20231211170300908.png)
+![image-20231211170300908](assets/image-20231211170300908.png)
 
 
 
@@ -49,7 +49,7 @@ console.log(arr[9]);
 console.log(arr[8]);
 ```
 
-![image-20231211171119576](D:\text1\1.前端\assets\image-20231211171119576.png)
+![image-20231211171119576](assets/image-20231211171119576.png)
 
 
 
@@ -65,7 +65,7 @@ var arr1 = ['张三',20,[1,2]];
 console.log(arr1);
 ```
 
-![image-20231211171636892](D:\text1\1.前端\assets\image-20231211171636892.png)
+![image-20231211171636892](assets/image-20231211171636892.png)
 
 
 
@@ -78,7 +78,7 @@ var arr = [1,2,3,4,5,6,7,8,9];
 console.log('arr的长度是'+arr.length);
 ```
 
-![image-20231211172025171](D:\text1\1.前端\assets\image-20231211172025171.png)
+![image-20231211172025171](assets/image-20231211172025171.png)
 
 > 遍历数组
 
@@ -88,7 +88,7 @@ for(var i = 0;i<arr.length;i++){
 }
 ```
 
-![image-20231211172258325](D:\text1\1.前端\assets\image-20231211172258325.png)
+![image-20231211172258325](assets/image-20231211172258325.png)
 
 
 
@@ -102,7 +102,7 @@ for(var i = 0;i<arr.length;i++){
 
 > forEach()<font color='red'>必须传入函数</font>，用来处理遍历的数组元素，每遍历一次，就会对这个元素执行该函数，如果不传入函数就会报错
 
-![image-20231212104746607](D:\text1\1.前端\assets\image-20231212104746607.png)
+![image-20231212104746607](assets/image-20231212104746607.png)
 
 
 
@@ -119,7 +119,7 @@ arr.forEach(function(item,index,arr){
 });
 ```
 
-![image-20231212105243460](D:\text1\1.前端\assets\image-20231212105243460.png)
+![image-20231212105243460](assets/image-20231212105243460.png)
 
 > 在日常开发中只会用到第一个参数
 
@@ -132,7 +132,7 @@ arr.forEach(function(e){
 });
 ```
 
-![image-20231212105439191](D:\text1\1.前端\assets\image-20231212105439191.png)
+![image-20231212105439191](assets/image-20231212105439191.png)
 
 ### 箭头函数
 
@@ -146,7 +146,7 @@ var arr = [2,4,6,8,10];
 arr.forEach((e) => {console.log(e)});
 ```
 
-![image-20231212110312546](D:\text1\1.前端\assets\image-20231212110312546.png)
+![image-20231212110312546](assets/image-20231212110312546.png)
 
 #### 省略()
 
@@ -158,7 +158,7 @@ const func = x => {retrun x * 2};
 console.log(func(4));
 ```
 
-![image-20231214101012322](D:\text1\1.前端\assets\image-20231214101012322.png)
+![image-20231214101012322](assets/image-20231214101012322.png)
 
 #### 省略{}和 return
 
@@ -171,7 +171,7 @@ var num = func(3)
 console.log(num);
 ```
 
-![image-20231214164151956](D:\text1\1.前端\assets\image-20231214164151956.png)
+![image-20231214164151956](assets/image-20231214164151956.png)
 
 ```js
 // 数体只有一条语句，即使不是返回语句，也可以省略花括号
@@ -179,7 +179,7 @@ var greet = name => console.log(`Hello, ${name}!`);
 greet('John');
 ```
 
-![image-20231214161143772](D:\text1\1.前端\assets\image-20231214161143772.png)
+![image-20231214161143772](assets/image-20231214161143772.png)
 
 #### 保留()和{}
 
@@ -194,7 +194,7 @@ var s = sum2(4,10);
 console.log(s);
 ```
 
-![image-20231214165549864](D:\text1\1.前端\assets\image-20231214165549864.png)
+![image-20231214165549864](assets/image-20231214165549864.png)
 
 
 
@@ -211,7 +211,7 @@ arr.push(5,6,7);
 console.log(arr);
 ```
 
-![image-20231212110542838](D:\text1\1.前端\assets\image-20231212110542838.png)
+![image-20231212110542838](assets/image-20231212110542838.png)
 
 
 
@@ -227,7 +227,7 @@ arr.splice(5,5);
 console.log(arr);
 ```
 
-![image-20231212110848884](D:\text1\1.前端\assets\image-20231212110848884.png)
+![image-20231212110848884](assets/image-20231212110848884.png)
 
 
 
@@ -245,7 +245,7 @@ var str1 = 'world';
 console.log(str1);
 ```
 
-![image-20231212111659280](D:\text1\1.前端\assets\image-20231212111659280.png)
+![image-20231212111659280](assets/image-20231212111659280.png)
 
 
 
@@ -258,7 +258,7 @@ var str = 'world';
 console.log(str.length);
 ```
 
-![image-20231212111829897](D:\text1\1.前端\assets\image-20231212111829897.png)
+![image-20231212111829897](assets/image-20231212111829897.png)
 
 
 
@@ -274,7 +274,7 @@ var s = str.charAt(2);
 console.log(s);
 ```
 
-![image-20231212112206606](D:\text1\1.前端\assets\image-20231212112206606.png)
+![image-20231212112206606](assets/image-20231212112206606.png)
 
 
 
@@ -293,7 +293,7 @@ console.log(num2);
 console.log(num3);
 ```
 
-![image-20231212114828629](D:\text1\1.前端\assets\image-20231212114828629.png)
+![image-20231212114828629](assets/image-20231212114828629.png)
 
 
 
@@ -310,7 +310,7 @@ console.log(str2.trim());
 console.log(str3.trim());
 ```
 
-![image-20231212115504750](D:\text1\1.前端\assets\image-20231212115504750.png)
+![image-20231212115504750](assets/image-20231212115504750.png)
 
 
 
@@ -324,7 +324,7 @@ var s = str.substring(1,9);
 console.log(s);
 ```
 
-![image-20231212115905613](D:\text1\1.前端\assets\image-20231212115905613.png)
+![image-20231212115905613](assets/image-20231212115905613.png)
 
 
 
@@ -366,7 +366,7 @@ user.eat('苹果');
 user.sleep();
 ```
 
-![image-20231212162742708](D:\text1\1.前端\assets\image-20231212162742708.png)
+![image-20231212162742708](assets/image-20231212162742708.png)
 
 > 对象中的函数可以简写，: function可以省略
 
@@ -388,7 +388,7 @@ user.eat('香蕉');
 user.sleep();
 ```
 
-![image-20231212163106595](D:\text1\1.前端\assets\image-20231212163106595.png)
+![image-20231212163106595](assets/image-20231212163106595.png)
 
 
 
@@ -413,7 +413,7 @@ console.log(user.age);
 console.log(user.gander);
 ```
 
-![image-20231212164512029](D:\text1\1.前端\assets\image-20231212164512029.png)
+![image-20231212164512029](assets/image-20231212164512029.png)
 
 > 但是在实际的开发环境中，通常是将json对象以json字符串的形式在前后端进行传输，那么拿到json字符串后就没办法再像对象那样获取值，因此需要将json字符串解析为json对象，有解析自然能将json对象转换为json字符串
 
@@ -431,7 +431,7 @@ console.log(jsbject.age);
 console.log(jsbject.addr);
 ```
 
-![image-20231212165544448](D:\text1\1.前端\assets\image-20231212165544448.png)
+![image-20231212165544448](assets/image-20231212165544448.png)
 
 ## JSON.stringify()
 
@@ -447,7 +447,7 @@ var jStr = JSON.stringify(jsObject);
 console.log(jStr);
 ```
 
-![image-20231212171058324](D:\text1\1.前端\assets\image-20231212171058324.png)
+![image-20231212171058324](assets/image-20231212171058324.png)
 
 
 
@@ -465,11 +465,11 @@ console.log(jStr);
 
 > 4、History对象，历史对象，主要封装浏览器的历史记录
 
-![image-20231212172027932](D:\text1\1.前端\assets\image-20231212172027932.png)
+![image-20231212172027932](assets/image-20231212172027932.png)
 
 > 5、Location对象，地址栏对象，也就是url框
 
-![image-20231212172225860](D:\text1\1.前端\assets\image-20231212172225860.png)
+![image-20231212172225860](assets/image-20231212172225860.png)
 
 > 对应java后端，只需要了解Window和Location对象就够了
 
@@ -500,7 +500,7 @@ console.log(jStr);
 confirm('这是一条消息');
 ```
 
-![image-20231214093700109](D:\text1\1.前端\assets\image-20231214093700109.png)
+![image-20231214093700109](assets/image-20231214093700109.png)
 
 > confirm()方法有返回值，点击确认返回true，点击取消返回false
 
@@ -510,7 +510,7 @@ var bool = confirm("确定删除这条记录吗?");
 console.log(bool);
 ```
 
-![动画 (1)](D:\text1\1.前端\assets\动画 (1).gif)
+![动画 (1)](assets/动画 (1).gif)
 
 #### setInterval()
 
@@ -522,7 +522,7 @@ var i = 0;
 setInterval(() => console.log('函数执行了'+(++i)+'次'),1000);
 ```
 
-![动画 (1)](D:\text1\1.前端\assets\动画 (1)-1702602869120-1.gif)
+![动画 (1)](assets/动画 (1)-1702602869120-1.gif)
 
 > setInterval() 只能传递<font color='red'>一个</font>额外的参数给执行的函数
 
@@ -533,7 +533,7 @@ var i = 0;
 setInterval(s => console.log(s+(++i)+"次"),1000,str);
 ```
 
-![动画 (1)](D:\text1\1.前端\assets\动画 (1)-1702621542143-7.gif)
+![动画 (1)](assets/动画 (1)-1702621542143-7.gif)
 
 
 
@@ -546,7 +546,7 @@ setInterval(s => console.log(s+(++i)+"次"),1000,str);
 setTimeout(() => console.log("延迟执行函数"),3000);
 ```
 
-![动画 (1)](D:\text1\1.前端\assets\动画 (1)-1702603462949-3.gif)
+![动画 (1)](assets/动画 (1)-1702603462949-3.gif)
 
 
 
@@ -565,7 +565,7 @@ setTimeout(() => console.log("延迟执行函数"),3000);
 console.log(location.href);
 ```
 
-![image-20231215105559511](D:\text1\1.前端\assets\image-20231215105559511.png)
+![image-20231215105559511](assets/image-20231215105559511.png)
 
 ```js
 // 先获取当前url，然后再改变url的值并跳转
@@ -573,7 +573,7 @@ alert(location.href);
 location.href = 'http://www.bilibili.com';
 ```
 
-![动画 (1)](D:\text1\1.前端\assets\动画 (1)-1702612824587-5.gif)
+![动画 (1)](assets/动画 (1)-1702612824587-5.gif)
 
 
 
@@ -624,7 +624,7 @@ href="http://www.baidu.com"
 <h1>DOM对象</h1>
 ```
 
-![DOM](D:\text1\1.前端\assets\DOM.png)
+![DOM](assets/DOM.png)
 
 
 
@@ -663,7 +663,7 @@ var bt = document.getElementById("bt");
 alert(bt);
 ```
 
-![image-20231215154241212](D:\text1\1.前端\assets\image-20231215154241212.png)
+![image-20231215154241212](assets/image-20231215154241212.png)
 
 
 
@@ -679,7 +679,7 @@ for(var i = 0;i<divs.length;i++){
 }
 ```
 
-![动画 (1)](D:\text1\1.前端\assets\动画 (1)-1702627422612-10.gif)
+![动画 (1)](assets/动画 (1)-1702627422612-10.gif)
 
 
 
@@ -693,9 +693,9 @@ alert(eles);
 console.log(eles[0]);
 ```
 
-![image-20231215161220377](D:\text1\1.前端\assets\image-20231215161220377.png)
+![image-20231215161220377](assets/image-20231215161220377.png)
 
-![image-20231215161302690](D:\text1\1.前端\assets\image-20231215161302690.png)
+![image-20231215161302690](assets/image-20231215161302690.png)
 
 
 
@@ -709,9 +709,9 @@ alert(eles);
 console.log(eles[0]);
 ```
 
-![image-20231215163459812](D:\text1\1.前端\assets\image-20231215163459812.png)
+![image-20231215163459812](assets/image-20231215163459812.png)
 
-![image-20231215163813749](D:\text1\1.前端\assets\image-20231215163813749.png)
+![image-20231215163813749](assets/image-20231215163813749.png)
 
 ## 属性
 
@@ -723,7 +723,7 @@ var bt = document.getElementById("bt");
 bt.innerHTML = 'a标签';
 ```
 
-![image-20231215171544293](D:\text1\1.前端\assets\image-20231215171544293.png)
+![image-20231215171544293](assets/image-20231215171544293.png)
 
 ```js
 // 获取h1的文本内容
@@ -732,7 +732,7 @@ var text = bt.innerHTML;
 console.log(text);
 ```
 
-![image-20231215171647121](D:\text1\1.前端\assets\image-20231215171647121.png)
+![image-20231215171647121](assets/image-20231215171647121.png)
 
 > innerHTML<font color='red'>会识别HTML标签</font>
 
@@ -741,4 +741,4 @@ var bt = document.getElementById("bt");
 bt.innerHTML = "<font color='red'>DOMObject</font>";
 ```
 
-![image-20231215172503667](D:\text1\1.前端\assets\image-20231215172503667.png)
+![image-20231215172503667](assets/image-20231215172503667.png)

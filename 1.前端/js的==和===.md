@@ -7,4 +7,4 @@ console.log(age === '10');
 console.log(age === 10);
 ```
 
-![image-20231208154208704](D:\text1\1.前端\assets\image-20231208154208704.png)
+![image-20231208154208704](assets/image-20231208154208704.png)

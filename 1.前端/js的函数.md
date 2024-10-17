@@ -11,7 +11,7 @@ var result = add(10,20);
 console.log(result);
 ```
 
-![image-20231211164049244](D:\text1\1.前端\assets\image-20231211164049244.png)
+![image-20231211164049244](assets/image-20231211164049244.png)
 
 
 
@@ -27,7 +27,7 @@ var add = function(a,b){
 console.log(add(1,3));
 ```
 
-![image-20231211164309601](D:\text1\1.前端\assets\image-20231211164309601.png)
+![image-20231211164309601](assets/image-20231211164309601.png)
 
 
 
@@ -45,4 +45,4 @@ var result = add(1,2,3,4);
 console.log(result);
 ```
 
-![image-20231211164759537](D:\text1\1.前端\assets\image-20231211164759537.png)
+![image-20231211164759537](assets/image-20231211164759537.png)

@@ -1,6 +1,6 @@
 # ajax请求
 
-![image-20230813175543369](D:\text1\1.前端\assets\image-20230813175543369.png) 
+![image-20230813175543369](assets/image-20230813175543369.png) 
 
 ```
 contentType: "application/json;charset=UTF-8"
@@ -18,7 +18,7 @@ dataType: "json"
 
 # servlet响应
 
-![image-20230813175607136](D:\text1\1.前端\assets\image-20230813175607136.png) 
+![image-20230813175607136](assets/image-20230813175607136.png) 
 
 ```java
 resp.setContentType("application/json; charset=UTF-8")

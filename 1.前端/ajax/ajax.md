@@ -6,11 +6,11 @@
 
 > 同步请求：
 
-![image-20231225221040119](D:\text1\前端\ajax\assets\image-20231225221040119.png)
+![image-20231225221040119](assets/image-20231225221040119.png)
 
 > 异步请求：
 
-![image-20231225221322816](D:\text1\前端\ajax\assets\image-20231225221322816.png)
+![image-20231225221322816](assets/image-20231225221322816.png)
 
 > 原生ajax发送请求的方式：
 
@@ -51,7 +51,7 @@ xhr.onreadystatechange = () => {
 
 > 响应的数据
 
-![image-20231225224439765](D:\text1\前端\ajax\assets\image-20231225224439765.png)
+![image-20231225224439765](assets/image-20231225224439765.png)
 
 
 
@@ -142,4 +142,4 @@ axios.post(
 	})
 ```
 
-![image-20231226212834072](D:\text1\前端\ajax\assets\image-20231226212834072.png)
+![image-20231226212834072](assets/image-20231226212834072.png)

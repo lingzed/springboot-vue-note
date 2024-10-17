@@ -8,7 +8,7 @@ console.log(parseInt('12A45'));
 console.log(parseInt('A45'));
 ```
 
-![image-20231208154733784](D:\text1\前端\assets\image-20231208154733784.png)
+![image-20231208154733784](assets/image-20231208154733784.png)
 
 > parseInt()会从第一个字符开始匹配，如果此时匹配到一个字符串，那么就会结束匹配，这就是为什么'12A45'解析出来的值是12，如果第一个字符就是字符串那么解析值为NaN
 
@@ -34,7 +34,7 @@ if(-1){
 
 > 结果只输出'-1转换为true'
 
-![image-20231208155936159](D:\text1\前端\assets\image-20231208155936159.png)
+![image-20231208155936159](assets/image-20231208155936159.png)
 
 ```js
 if(!0){
@@ -48,7 +48,7 @@ if(-1){
 }
 ```
 
-![image-20231208160009928](D:\text1\前端\assets\image-20231208160009928.png)
+![image-20231208160009928](assets/image-20231208160009928.png)
 
 ```js
 if(''){
@@ -59,7 +59,7 @@ if('hello'){
 }
 ```
 
-![image-20231208160150415](D:\text1\前端\assets\image-20231208160150415.png)
+![image-20231208160150415](assets/image-20231208160150415.png)
 
 > ''是false，但是' '空格不是false
 
@@ -69,7 +69,7 @@ if(' '){
 }
 ```
 
-![image-20231208160655596](D:\text1\前端\assets\image-20231208160655596.png)
+![image-20231208160655596](assets/image-20231208160655596.png)
 
 ```js
 if(!null){
@@ -80,4 +80,4 @@ if(!undefined){
 }
 ```
 
-![image-20231208160326722](D:\text1\前端\assets\image-20231208160326722.png)
+![image-20231208160326722](assets/image-20231208160326722.png)
