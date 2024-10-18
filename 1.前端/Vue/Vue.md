@@ -159,7 +159,7 @@ new Vue({
 
 ![动画 (1)](E:\text1\1.前端\Vue\assets\动画 (1)-1702887194974-3.gif)
 
-> 注意：<font color='yellow'>通过v-bind和v-model绑定的变量，必须在数据模型中声明</font>
+> 注意：<font color='red'>通过v-bind和v-model绑定的变量，必须在数据模型中声明</font>
 
 
 
