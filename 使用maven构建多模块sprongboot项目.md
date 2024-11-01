@@ -192,7 +192,7 @@ common是公共模块，前端和后端都能访问这个模块，比如一些�
 
 ![image-20241031175205484](assets/image-20241031175205484.png)
 
-删除类【App】：
+删除类`App`：
 
 ![image-20241031175248291](assets/image-20241031175248291.png)
 
@@ -242,9 +242,7 @@ common是公共模块，前端和后端都能访问这个模块，比如一些�
 
 ![image-20241031175057250](assets/image-20241031175057250.png)
 
-然后删除测试目录，【App】，创建资源目录。
-
-
+然后删除测试目录，`App`，创建资源目录。
 
 ## 2.4 搭建前端模块web
 
@@ -281,6 +279,15 @@ common是公共模块，前端和后端都能访问这个模块，比如一些�
     </dependencies>
 </project>
 ```
+
+## 2.5 \<packaging>解释
+
+当父模块的 `<packaging>` 为 `pom` 时，意味着该模块主要用于管理和聚合子模块的依赖关系和配置，它自身不会被打包成可执行的文件。父模块通常只包含子模块的依赖、构建配置等，并不直接生成可运行的代码或 Jar 包。
+
+而子模块的 `<packaging>` 设置为 `jar` 表示它们会被编译并打包成 `.jar` 文件，最终可以作为独立的库或者应用程序运行。具体来说：
+
+- **父模块**：通常设置 `<packaging>pom</packaging>`，它不打包代码，只是定义了项目的整体结构，子模块的管理以及 Maven 插件的配置等。
+- **子模块**：可以设置 `<packaging>jar</packaging>`，表示这些子模块是可被编译成 `.jar` 文件的项目，包含实际的业务代码或功能逻辑。
 
 
 
@@ -359,10 +366,10 @@ admin和web包通过依赖传递也引入了web依赖：
 现在可以编写一个简单的控制器进行测试，首先创建启动类，步骤如下：
 
 1. 启动类以Application为后缀。
-2. 添加【@SpringbootAoolication】标识为springboot启动类。
-3. 定义【main()】。
-4. 在方法中调用【SpringApplication】的【run()】。
-5. 将启动类字节码对象和【args】(`main()`的参数)作为参数传入【run()】中。
+2. 添加`@SpringbootAoolication`标识为springboot启动类。
+3. 定义`main()`。
+4. 在方法中调用`SpringApplication`的`run()`。
+5. 将启动类字节码对象和`args`(`main()`的参数)作为参数传入`run()`中。
 
 ```java
 @SpringBootApplication
@@ -460,14 +467,312 @@ public class TestController {
 
 常用的配置项见[springboot常用配置项.md](./springboot常用配置项.md)。
 
+在admin和web模块中引入这些配置项：
+
+```yml
+server:
+  servlet:
+    context-path: /admin              # 请求前缀
+    session:
+      timeout: PT60M                  # session 过期时间，1小时
+  port: 8090                          # 端口号
+
+spring:
+  mvc:
+    # 未找到请求资源时不返回404，抛出 NoHandlerFoundException 异常
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false             # 关闭静态资源自动映射
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/database_name?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      pool-name: HikariCPDatasource
+      minimum-idle: 5
+      idle-timeout: 180000
+      maximum-pool-size: 10
+      auto-commit: true
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+
+  mail:
+    host: smtp.qq.com                           # SMTP 服务器地址
+    port: 465                                   # 邮件服务器端口 (465 或 587)
+    default-encoding: UTF-8                     # 默认编码
+    properties:
+      mail:
+        smtp:
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory   # 使用 SSL 连接
+        debug: true                                 # 开启调试模式，查看邮件发送的详细日志
+    username: test@qq.com
+    password: 123                                   # 使用邮箱官网申请的授权码
+
+# 管理员账户和密码
+admin:
+  account: admin
+  password: 123456
+
+# 日志配置
+log:
+  root:
+    level: debug    # 日志级别
+
+# 项目路径配置
+project:
+  folder: d:/project_folder/web   # 项目文件路径
+
+# 开发环境标识
+isDev: true
+```
 
 
-# 5 引入常用依赖
+
+# 5 引入日志xml
+
+在admin和web模块中创建logback-spring.xml文件，放到resource目录下：
+
+![image-20241101213933665](assets/image-20241101213933665.png)
+
+为什么需要日志？因为出现问题可以通过日志定位。
+
+模板如下：
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="10 minutes">
+    <!-- 将日志输出到控制台，并自定义日志的格式 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss,GMT+8} [%t] [%p][%c][%M][%L] -> %m%n</pattern>
+        </layout>
+    </appender>
+
+    <!-- 从spring的配置文件中引入 project.folder 和 log.root.level 的值 -->
+    <springProperty scope="context" name="log.path" source="project.folder"/>
+    <springProperty scope="context" name="log.root.level" source="log.root.level"/>
+
+    <!-- 定义日志文件夹名称和日志文件名，根据实际情况更改 -->
+    <property name="LOG_FOLDER" value="logs"/>
+    <property name="LOG_FILE_NAME" value="web.log"/>
+
+    <!-- 将日志输出到文件，并实现日志文件的滚动管理 -->
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 定义当前日志文件的路径 -->
+        <file>${log.path}/${LOG_FOLDER}/${LOG_FILE_NAME}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 设置日志文件的命名规则和滚动策略：按日期和索引序号 -->
+            <FileNamePattern>${log.path}/${LOG_FOLDER}/${LOG_FILE_NAME}.%d{yyyyMMdd}.%i</FileNamePattern>
+            <!-- 应用程序启动时清理历史记录 -->
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+            <!-- 设置滚动触发策略，按文件大小和时间滚动 -->
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- 单个日志文件的最大大小限制 -->
+                <MaxFileSize>20MB</MaxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 保留历史日志的最大天数 -->
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <!-- 设置日志编码和输出格式 -->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss,GMT+8} [%t] [%p][%c][%M][%L] -> %m%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 配置文件的追加模式：是否覆盖旧的日志 -->
+        <append>false</append>
+        <!-- 设置审慎模式，适用于多实例环境 -->
+        <prudent>false</prudent>
+    </appender>
+
+    <root level="${log.root.level}">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="file"/>
+    </root>
+</configuration>
+```
+
+
+
+# 6 再次引入依赖
 
 只有一个springboot的web依赖还不够，接下来引入项目常用的依赖。
 
-在根模块中引入：
+在根模块的pom中加入`<dependencyManagement>`：
+
+![image-20241101214513799](assets/image-20241101214513799.png)
+
+然后引入这些依赖：
 
 ```xml
+<dependencyManagement>
+    <dependencies>
+        <!-- mybatis -->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>${mybatis.version}</version>
+        </dependency>
+        <!-- 邮件发送 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>${springboot.version}</version>
+        </dependency>
+        <!-- mysql -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+        <!-- 日志 -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+        <!-- aop -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectjweaver.version}</version>
+        </dependency>
+        <!-- okhttp3 -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>${okhttp3.version}</version>
+        </dependency>
+        <!-- json相关 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+        <!-- apache-common -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons.lang3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons-codec.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons.io.version}</version>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
 ```
 
+这些依赖的版本引用维护在`<properties>`中维护：
+
+```xml
+<properties>
+    <mybatis.version>2.2.2</mybatis.version>
+    <springboot.version>2.7.6</springboot.version>
+    <mysql.version>8.0.31</mysql.version>
+    <logback.version>1.2.11</logback.version>
+    <aspectjweaver.version>1.9.4</aspectjweaver.version>
+    <okhttp3.version>3.2.0</okhttp3.version>
+    <fastjson.version>1.2.66</fastjson.version>
+    <commons.lang3.version>3.4</commons.lang3.version>
+    <commons.codec.version>1.9</commons.codec.version>
+    <commons.io.version>2.5</commons.io.version>
+</properties>
+```
+
+![image-20241101224144136](assets/image-20241101224144136.png)
+
+`<dependencyManagement>`的主要作用是管理依赖的版本，它不会真正引入依赖：
+
+![image-20241101224818446](assets/image-20241101224818446.png)
+
+在根模块中声明`<dependencyManagement>`，以集中管理依赖版本，这对于多模块项目特别有用。通过这种方式，你可以在父模块中定义依赖及其版本，然后在子模块中引用这些依赖，而不需要在每个子模块中重复指定版本号。
+
+真正引入依赖的是common模块：
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <!-- mybatis -->
+    <dependency>
+        <groupId>org.mybatis.spring.boot</groupId>
+        <artifactId>mybatis-spring-boot-starter</artifactId>
+    </dependency>
+    <!-- 邮件发送 -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-mail</artifactId>
+    </dependency>
+    <!-- mysql -->
+    <dependency>
+        <groupId>com.mysql</groupId>
+        <artifactId>mysql-connector-j</artifactId>
+    </dependency>
+    <!-- 日志 -->
+    <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-core</artifactId>
+    </dependency>
+    <!-- aop -->
+    <dependency>
+        <groupId>org.aspectj</groupId>
+        <artifactId>aspectjweaver</artifactId>
+    </dependency>
+    <!-- okhttp3 -->
+    <dependency>
+        <groupId>com.squareup.okhttp3</groupId>
+        <artifactId>okhttp</artifactId>
+    </dependency>
+    <!-- json相关 -->
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>fastjson</artifactId>
+    </dependency>
+    <!-- apache-common -->
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+    </dependency>
+</dependencies>
+```
+
+很明显，common在引入依赖时，并没有指定版本。
+
+
+
+# 7 跳过测试阶段
+
+另外，在根模块中，还添加了`<skipTests>true</skipTests>`，这个的目的是为了跳过maven生命周期中的测试阶段，让编译阶段之后直接进入打包阶段，加快项目构建时间。
+
+![image-20241101225855923](assets/image-20241101225855923.png)
