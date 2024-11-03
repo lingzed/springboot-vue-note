@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ling.mappers.BookMapper">
+    <!-- 通用sql -->
+    <sql id="commonSelect">
+        select id,
+               ISBN,
+               name,
+               cover,
+               author,
+               publish,
+               publish_date,
+               book_type_id,
+               description,
+               number,
+               create_time,
+               update_time
+    </sql>
+
+    <!-- 条件分页查询 -->
+    <select id="select" resultType="com.ling.entity.book.Book">
+        <include refid="commonSelect"/>
+        from books
+        <where>
+            <if test="bookQuery.name != null and bookQuery.name != ''">
+                name like concat('%', #{bookQuery.name}, '%')
+            </if>
+            <if test="bookQuery.author != null and bookQuery.author != ''">
+                and author like concat('%', #{bookQuery.author}, '%')
+            </if>
+            <if test="bookQuery.startDate != null and bookQuery.endDate != null">
+                and publish_date between #{bookQuery.startDate} and #{bookQuery.endDate}
+            </if>
+            <if test="bookQuery.bookTypeId != null">
+                and book_type_id = #{bookQuery.bookTypeId}
+            </if>
+        </where>
+    </select>
+
+    <!-- 通过id查询 -->
+    <select id="selectById" resultType="com.ling.entity.book.Book">
+        <include refid="commonSelect"/>
+        from books
+        where id = #{id}
+    </select>
+
+    <!-- 插入 -->
+    <insert id="insert">
+
+    </insert>
+
+    <!-- 批量插入 -->
+    <insert id="batchInsert">
+
+    </insert>
+
+    <!-- 更新 -->
+    <update id="update">
+
+    </update>
+
+    <!-- 删除/批量删除 -->
+    <delete id="delete"></delete>
+</mapper>
