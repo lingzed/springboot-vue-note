@@ -1,7 +1,6 @@
-package com.ling.mappers;
+package com.main.mappers;
 
-import com.ling.entity.book.Book;
-import com.ling.entity.book.BookQuery;
+import com.main.entity.po.Book;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,10 +12,10 @@ public interface BookMapper {
     /**
      * 查询
      *
-     * @param bookQuery
+     * @param book
      * @return
      */
-    List<Book> select(@Param("bookQuery") BookQuery bookQuery);
+    List<Book> select(Book book);
 
     /**
      * 根据id查询
@@ -24,7 +23,7 @@ public interface BookMapper {
      * @param id
      * @return
      */
-    Book selectById(int id);
+    Book selectById(String id);
 
     /**
      * 添加
@@ -38,7 +37,7 @@ public interface BookMapper {
      *
      * @param books
      */
-    void batchInsert(List<Book> books);
+    void batchInsert(@Param("books") List<Book> books);
 
     /**
      * 更新
@@ -48,9 +47,16 @@ public interface BookMapper {
     void update(Book book);
 
     /**
-     * 删除
+     * 批量更新
+     *
+     * @param books
+     */
+    void batchUpdate(@Param("books") List<Book> books);
+
+    /**
+     * 删除/批量删除
      *
      * @param ids
      */
-    void delete(List<Integer> ids);
+    void delete(List<String> ids);
 }

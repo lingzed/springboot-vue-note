@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.main.mappers.BookMapper">
+    <!-- 通用字段 -->
+    <sql id="commonField">
+        id
+        ,ISBN
+        ,name
+        ,cover
+        ,author
+        ,publish
+        ,publish_date
+        ,book_type_id
+        ,description
+        ,number
+        ,create_time
+        ,update_time
+    </sql>
+    <!-- 通用查询sql -->
+    <sql id="commonSelect">
+        select
+        <include refid="commonField"/>
+    </sql>
+
+    <!-- 条件分页查询 -->
+    <select id="select" resultType="com.main.entity.po.Book" >
+        <include refid="commonSelect"/>
+        from books
+        <where>
+            <if test="name != null and name != ''">
+                name like concat('%', #{name}, '%')
+            </if>
+            <if test="author != null and author != ''">
+                and author like concat('%', #{author}, '%')
+            </if>
+            <if test="startDate != null and endDate != null">
+                and publish_date between #{startDate} and #{endDate}
+            </if>
+            <if test="bookTypeId != null">
+                and book_type_id = #{bookTypeId}
+            </if>
+        </where>
+    </select>
+
+    <!-- 通过id查询 -->
+    <select id="selectById" resultType="com.main.entity.po.Book">
+        <include refid="commonSelect"/>
+        from books
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <!-- 插入 -->
+    <insert id="insert" parameterType="com.main.entity.po.Book">
+        insert into books(<include refid="commonField"/>) values(
+        #{id},
+        #{isbn},
+        #{name},
+        #{cover},
+        #{author},
+        #{publish},
+        #{publishDate},
+        #{bookTypeId},
+        #{description},
+        #{number},
+        #{createTime},
+        #{updateTime})
+    </insert>
+
+    <!-- 批量插入 -->
+    <insert id="batchInsert">
+        insert into books(<include refid="commonField"/>) values
+        <foreach collection="books" item="book" separator=",">
+            (#{book.id},
+            #{book.isbn},
+            #{book.name},
+            #{book.cover},
+            #{book.author},
+            #{book.publish},
+            #{book.publishDate},
+            #{book.bookTypeId},
+            #{book.description},
+            #{book.number},
+            #{book.createTime},
+            #{book.updateTime})
+        </foreach>
+    </insert>
+
+    <!-- 更新 -->
+    <update id="update">
+        update books
+        <set>
+            <if test="isbn != null and isbn != ''">ISBN = #{isbn},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="cover != null and cover != ''">cover = #{cover},</if>
+            <if test="author != null and author != ''">author = #{author},</if>
+            <if test="publish != null and publish != ''">publish = #{publish},</if>
+            <if test="publishDate != null">publish_date = #{publishDate},</if>
+            <if test="bookTypeId != null">book_type_id = #{bookTypeId},</if>
+            <if test="description != null and description != ''">description = #{description},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
+    </update>
+
+    <!-- 批量更新，需要设置jdbc的url参数allowMultiQueries=true -->
+    <update id="batchUpdate">
+        <foreach collection="books" item="book" separator=";">
+            update books
+            <set>
+                <if test="book.isbn != null and book.isbn != ''">ISBN = #{book.isbn},</if>
+                <if test="book.name != null and book.name != ''">name = #{book.name},</if>
+                <if test="book.cover != null and book.cover != ''">cover = #{book.cover},</if>
+                <if test="book.author != null and book.author != ''">author = #{book.author},</if>
+                <if test="book.publish != null and book.publish != ''">publish = #{book.publish},</if>
+                <if test="book.publishDate != null">publish_date = #{book.publishDate},</if>
+                <if test="book.bookTypeId != null">book_type_id = #{book.bookTypeId},</if>
+                <if test="book.description != null and book.description != ''">description = #{book.description},</if>
+                <if test="book.createTime != null">create_time = #{book.createTime},</if>
+                <if test="book.updateTime != null">update_time = #{book.updateTime},</if>
+            </set>
+            <where>
+                <if test="book.id != null and book.id != ''">id = #{book.id}</if>
+            </where>
+        </foreach>
+    </update>
+
+    <!-- 删除/批量删除 -->
+    <delete id="delete">
+        delete from books where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            <if test="id != null">#{id}</if>
+        </foreach>
+    </delete>
+</mapper>
