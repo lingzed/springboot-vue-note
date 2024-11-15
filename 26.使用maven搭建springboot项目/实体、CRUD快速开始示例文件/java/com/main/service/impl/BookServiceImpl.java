@@ -85,7 +85,6 @@ public class BookServiceImpl implements BookService {
         try {
             Date date = new Date();
             List<Book> newBooks = books.stream().map(b -> {
-                b.setCreateTime(date);
                 b.setUpdateTime(date);
                 return b;
             }).collect(Collectors.toList());
