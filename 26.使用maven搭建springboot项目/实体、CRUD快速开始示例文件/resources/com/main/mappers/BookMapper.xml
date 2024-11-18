@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.main.mappers.BookMapper">
+
     <!-- 通用字段 -->
     <sql id="commonField">
         id
@@ -18,6 +19,7 @@
         ,create_time
         ,update_time
     </sql>
+
     <!-- 通用查询sql -->
     <sql id="commonSelect">
         select
@@ -75,19 +77,19 @@
     <!-- 批量插入 -->
     <insert id="batchInsert">
         insert into books(<include refid="commonField"/>) values
-        <foreach collection="books" item="book" separator=",">
-            (#{book.id},
-            #{book.isbn},
-            #{book.name},
-            #{book.cover},
-            #{book.author},
-            #{book.publish},
-            #{book.publishDate},
-            #{book.bookTypeId},
-            #{book.description},
-            #{book.number},
-            #{book.createTime},
-            #{book.updateTime})
+        <foreach collection="books" item="item" separator=",">
+            (#{item.id},
+            #{item.isbn},
+            #{item.name},
+            #{item.cover},
+            #{item.author},
+            #{item.publish},
+            #{item.publishDate},
+            #{item.bookTypeId},
+            #{item.description},
+            #{item.number},
+            #{item.createTime},
+            #{item.updateTime})
         </foreach>
     </insert>
 
@@ -115,22 +117,22 @@
 
     <!-- 批量更新，需要设置jdbc的url参数allowMultiQueries=true -->
     <update id="batchUpdate">
-        <foreach collection="books" item="book" separator=";">
+        <foreach collection="books" item="item" separator=";">
             update books
             <set>
-                <if test="book.isbn != null and book.isbn != ''">ISBN = #{book.isbn},</if>
-                <if test="book.name != null and book.name != ''">name = #{book.name},</if>
-                <if test="book.cover != null and book.cover != ''">cover = #{book.cover},</if>
-                <if test="book.author != null and book.author != ''">author = #{book.author},</if>
-                <if test="book.publish != null and book.publish != ''">publish = #{book.publish},</if>
-                <if test="book.publishDate != null">publish_date = #{book.publishDate},</if>
-                <if test="book.bookTypeId != null">book_type_id = #{book.bookTypeId},</if>
-                <if test="book.description != null and book.description != ''">description = #{book.description},</if>
-                <if test="book.createTime != null">create_time = #{book.createTime},</if>
-                <if test="book.updateTime != null">update_time = #{book.updateTime},</if>
+                <if test="item.isbn != null and item.isbn != ''">ISBN = #{item.isbn},</if>
+                <if test="item.name != null and item.name != ''">name = #{item.name},</if>
+                <if test="item.cover != null and item.cover != ''">cover = #{item.cover},</if>
+                <if test="item.author != null and item.author != ''">author = #{item.author},</if>
+                <if test="item.publish != null and item.publish != ''">publish = #{item.publish},</if>
+                <if test="item.publishDate != null">publish_date = #{item.publishDate},</if>
+                <if test="item.bookTypeId != null">book_type_id = #{item.bookTypeId},</if>
+                <if test="item.description != null and item.description != ''">description = #{item.description},</if>
+                <if test="item.createTime != null">create_time = #{item.createTime},</if>
+                <if test="item.updateTime != null">update_time = #{item.updateTime},</if>
             </set>
             <where>
-                <if test="book.id != null and book.id != ''">id = #{book.id}</if>
+                <if test="item.id != null and item.id != ''">id = #{item.id}</if>
             </where>
         </foreach>
     </update>
@@ -138,8 +140,8 @@
     <!-- 删除/批量删除 -->
     <delete id="delete">
         delete from books where id in
-        <foreach collection="ids" item="id" separator="," open="(" close=")">
-            <if test="id != null">#{id}</if>
+        <foreach collection="ids" item="item" separator="," open="(" close=")">
+            <if test="item != null">#{item}</if>
         </foreach>
     </delete>
 </mapper>
