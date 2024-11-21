@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ling.mappers.EntityDemoMapper">
+
+    <!-- 通用字段 -->
+    <sql id="commonField">
+        id
+        , string_field
+        , int_field
+        , date_field
+        , create_time
+        , update_time
+    </sql>
+
+    <!-- 通用查询sql -->
+    <sql id="commonSelect">
+        select
+        <include refid="commonField"/>
+    </sql>
+
+    <!-- 条件分页查询引用 -->
+    <sql id="conditionSelect">
+        <include refid="commonSelect"/>
+        from entity_demo
+        <where>
+            <if test="stringField != null and stringField != ''">
+                string_field like concat('%', #{stringField}, '%')
+            </if>
+            <if test="intField != null">
+                and int_field = #{intField}
+            </if>
+            <if test="startDate != null and endDate != null">
+                and date_field between #{startDate} and #{endDate}
+            </if>
+        </where>
+    </sql>
+
+    <!-- 条件分页查询，返回po -->
+    <select id="selectByCondition" resultType="com.ling.entity.po.EntityDemo">
+        <include refid="conditionSelect"/>
+    </select>
+
+    <!-- 条件分页查询，返回vo -->
+    <select id="selectVoListByCondition" resultType="com.ling.entity.vo.EntityDemoVo">
+        <include refid="conditionSelect"/>
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultType="com.ling.entity.po.EntityDemo">
+        <include refid="commonSelect"/>
+        from entity_demo
+    </select>
+
+    <!-- 通过id查询 -->
+    <!-- <if test="id != null">id = #{id}</if> -->
+    <select id="selectById" resultType="com.ling.entity.po.EntityDemo">
+        <include refid="commonSelect"/>
+        from entity_demo
+        <where>
+            <if test="id != null and id != ''">
+                id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <!--&lt;!&ndash; 通过 xxx 查询 &ndash;&gt;
+    &lt;!&ndash; <if test="xxx != null">id = #{xxx}</if> &ndash;&gt;
+    <select id="selectByxxx" resultType="com.ling.entity.po.EntityDemo">
+        <include refid="commonSelect"/>
+        from entity_demo
+        <where>
+            <if test="xxx != null and xxx != ''">
+                id = #{xxx}
+            </if>
+        </where>
+    </select>-->
+
+    <!-- 插入 -->
+    <insert id="insert">
+        insert into entity_demo(<include refid="commonField"/>) values(
+        #{id},
+        #{stringField},
+        #{intField},
+        #{dateField},
+        #{createTime},
+        #{updateTime})
+    </insert>
+
+    <!-- 批量插入 -->
+    <insert id="batchInsert">
+        insert into entity_demo(<include refid="commonField"/>) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id},
+            #{item.stringField},
+            #{item.intField},
+            #{item.dateField},
+            #{item.createTime},
+            #{item.updateTime})
+        </foreach>
+    </insert>
+
+    <!-- 更新 -->
+    <!-- <if test="id != null">id = #{id},</if> -->
+    <update id="update">
+        update entity_demo
+        <set>
+            <if test="stringField != null and stringField != ''">string_field = #{stringField},</if>
+            <if test="intField != null">int_field = #{intField},</if>
+            <if test="dateField != null">date_field = #{dateField},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </set>
+        <where>
+            <if test="id != null and id != ''">id = #{id}</if>
+        </where>
+    </update>
+
+    <!-- 批量更新，需要设置jdbc的url参数allowMultiQueries=true -->
+    <!-- <if test="item.id != null">id = #{item.id},</if> -->
+    <update id="batchUpdate">
+        <foreach collection="list" item="item" separator=";">
+            update entity_demo
+            <set>
+                <if test="item.stringField != null and item.stringField != ''">string_field = #{item.stringField},</if>
+                <if test="item.intField != null">int_field = #{item.intField},</if>
+                <if test="item.dateField != null">date_field = #{item.dateField},</if>
+                <if test="item.createTime != null">create_time = #{item.createTime},</if>
+                <if test="item.updateTime != null">update_time = #{item.updateTime},</if>
+            </set>
+            <where>
+                <if test="item.id != null and item.id != ''">id = #{item.id}</if>
+            </where>
+        </foreach>
+    </update>
+
+    <!-- 删除/批量删除 -->
+    <!-- <if test="id != null">#{id}</if> -->
+    <delete id="delete">
+        delete from entity_demo where id in
+        <foreach collection="list" item="id" separator="," open="(" close=")">
+            <if test="id != null and id != ''">#{id}</if>
+        </foreach>
+    </delete>
+</mapper>
