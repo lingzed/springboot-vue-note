@@ -36,7 +36,7 @@ public interface BookService {
      *
      * @param books
      */
-    void batchAdd(@Param("books") List<Book> books);
+    void batchAdd(List<Book> books);
 
     /**
      * 更新
@@ -50,7 +50,7 @@ public interface BookService {
      *
      * @param books
      */
-    void batchEdit(@Param("books") List<Book> books);
+    void batchEdit(List<Book> books);
 
     /**
      * 删除/批量删除
