@@ -40,4 +40,14 @@ public class StrUtil {
     public static String getRandomNum(Integer len) {
         return RandomStringUtils.random(len, false, true);
     }
+
+    /**
+     * MD5加密
+     *
+     * @param str 原字符
+     * @return
+     */
+    public static String encodeMD5(String str) {
+        return isEmpty(str) ? null : DigestUtils.md5Hex(str);
+    }
 }
