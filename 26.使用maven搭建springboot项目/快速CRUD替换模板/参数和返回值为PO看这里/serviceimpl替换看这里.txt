@@ -1,0 +1,47 @@
+实现类名：
+:@@                  <=替换=> 			UserInfoServiceImpl
+
+查询实体类型：
+>:-::-  		   <=替换=> 			UserInfoQueryDto
+查询实体参数名：
+%%                     <=替换=> 			userInfoQueryDto
+
+返回的实体类型：
+#-#                      <=替换=> 			UserInfo
+实体参数名：
+##                       <=替换=> 			userInfo
+
+Mapper接口类型：
+^^                       <=替换=> 			UserInfoMapper
+Mapper接口参数名：
+^-^                      <=替换=> 			userInfoMapper
+
+添加方法实体类型：
+&&                      <=替换=> 			UserInfoDto
+添加方法实体参数名：
+&-&                     <=替换=> 			userInfoDto
+
+编辑方法实体类型：
+-**                         <=替换=> 			UserInfoDto
+编辑方法实体参数名：
+*-*                      <=替换=> 			userInfoDto
+
+
+
+UserInfoQueryDto 是用来查询的实体，userInfoQueryDto 是该类型的参数名
+UserInfo 是实体，userInfo是该类型的参数名
+^^ 是Mapper接口，^-^是该参数名
+&& 是添加时传递的实体对象，通常是UserInfoDto，也可以是UserInfo，对应的参数名为userInfoDto、userInfo
+-** 是编辑时传递的实体对象，通常是UserInfoDto，也可以是UserInfo，对应的参数名为userInfoDto、userInfo
+
+:@@
+>:-::-
+%%
+#-#
+##
+^^
+^-^
+&&
+&-&
+-**
+*-*
