@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模板替换</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .input-container {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+        }
+
+        label {
+            margin-right: 10px;
+            font-weight: bold;
+            font-size: 16px;
+            white-space: nowrap;  /* 防止标签文字换行 */
+            flex-shrink: 0; /* 防止标签缩小 */
+            min-width: 100px;  /* 设置最小宽度 */
+            text-align: right;
+        }
+
+        input {
+            padding: 8px;
+            font-size: 14px;
+            flex-grow: 1;  /* 输入框占据剩余空间 */
+            max-width: 100%;  /* 确保输入框不超出父容器 */
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+
+        button {
+            padding: 8px 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            resize: vertical;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Service实现代码生成</h1>
+
+    <div>
+        <div class="input-container">
+            <label for="Mapper接口类型">Mapper接口类型:</label>
+            <input type="text" id="Mapper接口类型" placeholder="例如：UserMapper">
+        </div>
+        <div class="input-container">
+            <label for="Service接口类型">Service接口类型:</label>
+            <input type="text" id="Service接口类型" placeholder="例如：UserService">
+        </div>
+        <div class="input-container">
+            <label for="实现类名">实现类名:</label>
+            <input type="text" id="实现类名" placeholder="例如：UserServiceImpl">
+        </div>
+        <div class="input-container">
+            <label for="返回值1"><span style="color: red;">*</span>返回的po或vo:</label>
+            <input type="text" id="返回值1" placeholder="例如：User">
+        </div>
+        <div class="input-container">
+            <label for="查询Dto"><span style="color: red;">*</span>查询Dto:</label>
+            <input type="text" id="查询Dto" placeholder="例如：UserQueryDto">
+        </div>
+        <!-- <div class="input-container">
+            <label for="参数1">查询Dto参数名:</label>
+            <input type="text" id="参数1" placeholder="例如：userQueryDto">
+        </div> -->
+        <div class="input-container">
+            <label for="插入Dto"><span style="color: red;">*</span>实体类型:</label>
+            <input type="text" id="插入Dto" placeholder="例如：User">
+        </div>
+
+        <button onclick="generateCode()">生成代码</button>
+        <button onclick="copyToClipboard()">复制代码</button>
+    </div>
+
+    <h2>生成的代码:</h2>
+    <textarea id="result" readonly></textarea>
+
+    <script>
+        const template = `package com.ling.service.impl;
+
+import com.ling.commons.CommonMsg;
+import com.ling.entity.vo.PageBean;
+import com.ling.exception.BusinessException;
+import com.ling.mappers.Mapper接口类型;
+import com.ling.service.Service接口类型;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class 实现类名 implements Service接口类型 {
+    private Logger log = LoggerFactory.getLogger(实现类名.class);
+
+    @Resource
+    private Mapper接口类型 参数0;
+
+    /** 
+     * 条件查询
+     * @param  
+     */
+    @Override
+    public PageBean<返回值1> findByCondition(查询Dto 参数1) {
+        List<返回值1> list = 参数0.selectByCondition(参数1);
+        Long total = findTotalByCondition(参数1);
+        return PageBean.of(total, 参数1.getPage(), 参数1.getPageSize(), list);
+    }
+
+    /**
+     * 条件查询总数
+     * @param
+     */
+    @Override
+    public Long findTotalByCondition(查询Dto 参数1) {
+        return 参数0.selectCountByCondition(参数1);
+    }
+
+    /** 
+     * 查询所有
+     */
+    @Override
+    public List<返回值1> findAll() {
+        return 参数0.selectAll();
+    }
+
+    /**
+     * 查询总数
+     */
+    @Override
+    public Long findTotal() {
+        return 参数0.selectCount();
+    }
+
+    /** 
+     * 通过id查询
+     * @param
+     */
+    @Override
+    public 返回值1 findById(String id) {
+        return 参数0.selectById(id);
+    }
+
+    /** 
+     * 通过id查询
+     * @param
+     */
+    @Override
+    public 返回值1 findById(Integer id) {
+        return 参数0.selectById(id);
+    }
+
+    /** 
+     * 添加
+     * @param
+     */
+    @Override
+    public void add(插入Dto 参数2) {
+        Date date = new Date();
+        参数2.setCreateTime(date);
+        参数2.setUpdateTime(date);
+        参数0.insert(参数2);
+    }
+
+    /** 
+     * 添加
+     * @param
+     */
+    @Override
+    public void add(插入_Dto 参数_2) {
+        插入Dto 参数2 = new 插入Dto();
+        Date date = new Date();
+        参数2.setCreateTime(date);
+        参数2.setUpdateTime(date);
+        BeanUtils.copyProperties(参数_2, 参数2);
+        参数0.insert(参数2);
+    }
+
+    /** 
+     * 批量添加
+     * @param
+     */
+    @Override
+    public void batchAdd(List<插入Dto> list) {
+        Date date = new Date();
+        list.forEach(e -> {
+            e.setCreateTime(date);
+            e.setUpdateTime(date);
+        });
+        参数0.batchInsert(list);
+    }
+
+    /** 
+     * 批量添加
+     * @param
+     */
+    @Override
+    public void batchAdd(List<插入_Dto> list) {
+        Date date = new Date();
+        List<插入Dto> 参数2s = list.stream().map(e -> {
+            插入Dto 参数2 = new 插入Dto();
+            参数2.setCreateTime(date);
+            参数2.setUpdateTime(date);
+            BeanUtils.copyProperties(e, 参数2);
+            return 参数2;
+        }).collect(Collectors.toList());
+        参数0.batchInsert(参数2s);
+    }
+
+    /** 
+     * 编辑
+     * @param
+     */
+    @Override
+    public void edit(插入Dto 参数2) {
+        Date date = new Date();
+        参数2.setUpdateTime(date);
+        参数0.update(参数2);
+    }
+
+    /** 
+     * 编辑
+     * @param
+     */
+    @Override
+    public void edit(插入_Dto 参数_2) {
+        返回值1 返变量1 = new 返回值1();
+        Date date = new Date();
+        返变量1.setUpdateTime(date);
+        BeanUtils.copyProperties(参数_2, 返变量1);
+        参数0.update(返变量1);
+    }
+
+    /** 
+     * 批量编辑
+     * @param
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void batchEdit(List<插入Dto> list) {
+        Date date = new Date();
+        list.forEach(e -> {
+            e.setUpdateTime(date);
+        });
+        参数0.batchUpdate(list);
+    }
+
+    /** 
+     * 批量编辑
+     * @param
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void batchEdit(List<插入_Dto> list) {
+        Date date = new Date();
+        List<返回值1> 返变量1s = list.stream().map(e -> {
+            返回值1 返变量1 = new 返回值1();
+            返变量1.setUpdateTime(date);
+            BeanUtils.copyProperties(e, 返变量1);
+            return 返变量1;
+        }).collect(Collectors.toList());
+        参数0.batchUpdate(返变量1s);
+    }
+
+    /** 
+     * 删除
+     * @param
+     */
+    @Override
+    public void delete(List<String> list) {
+        参数0.delete(list);
+    }
+
+    /** 
+     * 删除
+     * @param
+     */
+    @Override
+    public void delete(List<Integer> list) {
+        参数0.delete(list);
+    }
+}
+`;
+
+        function generateCode() {
+            const getDefaultParamName = (type) => {
+                // 如果没有输入参数名，默认为类型名首字母小写
+                return type ? type.charAt(0).toLowerCase() + type.slice(1) : '';
+            };
+            const val = document.getElementById("插入Dto").value;
+            console.log(document.getElementById("Mapper接口类型").value)
+            const replacements = {
+                "Mapper接口类型": document.getElementById("Mapper接口类型").value || (val ? val + "Mapper" : "UserMapper"),
+                "Service接口类型": document.getElementById("Service接口类型").value || (val ? val + "Service" : "UserService"),
+                "实现类名": document.getElementById("实现类名").value || (val ? val + "ServiceImpl" : "UserServiceImpl"),
+                "参数0": getDefaultParamName(document.getElementById("Mapper接口类型").value) || (val ? getDefaultParamName(val) + "Mapper" : "userMapper"),
+                "返回值1": document.getElementById("返回值1").value || "User",
+                "返变量1": getDefaultParamName(document.getElementById("返回值1").value) || "user",
+                "查询Dto": document.getElementById("查询Dto").value || "UserQueryDto",
+                "参数1": document.getElementById("参数1").value || getDefaultParamName(document.getElementById("查询Dto").value) || "userQueryDto",
+                "插入Dto": val || "User",
+                "参数2": getDefaultParamName(val) || "user",
+                "插入_Dto": val ? val + "Dto" : "UserDto",
+                "参数_2": val ? getDefaultParamName(val) + "Dto" : "userDto"
+            };
+
+            const regex = /Mapper接口类型|Service接口类型|实现类名|参数0|返回值1|返变量1|查询Dto|参数1|插入Dto|参数2|插入_Dto|参数_2/g;
+
+            const result = template.replace(regex, match => replacements[match]);
+
+            document.getElementById("result").value = result;
+        }
+
+        function copyToClipboard() {
+            const resultText = document.getElementById("result").value;
+            if (resultText) {
+                navigator.clipboard.writeText(resultText)
+                    .then(() => {
+                        alert("代码已复制到剪贴板！");
+                    })
+                    .catch(err => {
+                        alert("复制失败，错误：" + err);
+                    });
+            } else {
+                alert("没有生成代码可复制！");
+            }
+        }
+    </script>
+
+</body>
+</html>

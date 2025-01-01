@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模板替换</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .input-container {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+        }
+
+        label {
+            margin-right: 10px;
+            font-weight: bold;
+            font-size: 16px;
+            white-space: nowrap;  /* 防止标签文字换行 */
+            flex-shrink: 0; /* 防止标签缩小 */
+            min-width: 100px;  /* 设置最小宽度 */
+            text-align: right;
+        }
+
+        input {
+            padding: 8px;
+            font-size: 14px;
+            flex-grow: 1;  /* 输入框占据剩余空间 */
+            max-width: 100%;  /* 确保输入框不超出父容器 */
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+
+        button {
+            padding: 8px 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            resize: vertical;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Mapper接口代码生成</h1>
+
+    <div>
+        <div class="input-container">
+            <label for="接口名">接口名:</label>
+            <input type="text" id="接口名" placeholder="例如：UserMapper">
+        </div>
+        <div class="input-container">
+            <label for="返回值1">返回的po或vo:</label>
+            <input type="text" id="返回值1" placeholder="例如：User或UserVo">
+        </div>
+        <div class="input-container">
+            <label for="查询Dto">查询Dto:</label>
+            <input type="text" id="查询Dto" placeholder="例如：UserQueryDto">
+        </div>
+        <div class="input-container">
+            <label for="插入Dto">实体类型:</label>
+            <input type="text" id="插入Dto" placeholder="例如：User">
+        </div>
+
+        <button onclick="generateCode()">生成代码</button>
+        <button onclick="copyToClipboard()">复制代码</button>
+    </div>
+
+    <h2>生成的代码:</h2>
+    <textarea id="result" readonly></textarea>
+
+    <script>
+        const template = 
+        `package com.ling.mappers;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
+
+@Mapper
+public interface 接口名 {
+    /** 
+     * 条件查询
+     * @param  
+     */
+    List<返回值1> selectByCondition(查询Dto 参数1);
+
+    /**
+     * 条件查询总数量
+     * @param 
+     */
+    Long selectCountByCondition(查询Dto 参数1);
+
+    /** 
+     * 查询所有
+     */
+    List<返回值1> selectAll();
+
+    /**
+     * 查询总数量
+     */
+    Long selectCount();
+
+    /** 
+     * 通过id查询
+     * @param
+     */
+    返回值1 selectById(String id);
+
+    /** 
+     * 通过id查询
+     * @param
+     */
+    返回值1 selectById(Integer id);
+
+    /** 
+     * 添加
+     * @param
+     */
+    void insert(插入Dto 参数2);
+
+    /** 
+     * 批量添加
+     * @param
+     */
+    void batchInsert(List<插入Dto> list);
+
+    /** 
+     * 编辑
+     * @param
+     */
+    void update(编辑Dto 参数3);
+
+    /** 
+     * 批量编辑
+     * @param
+     */
+    void batchUpdate(List<编辑Dto> list);
+
+    /** 
+     * 删除
+     * @param
+     */
+    void delete(List<String> list);
+
+    /** 
+     * 删除
+     * @param
+     */
+    void delete(List<Integer> list);
+}
+`;
+
+        function generateCode() {
+            const getDefaultParamName = (type) => {
+                // 如果没有输入参数名，默认为类型名首字母小写
+                return type ? type.charAt(0).toLowerCase() + type.slice(1) : '';
+            };
+
+            const replacements = {
+                "接口名": document.getElementById("接口名").value || "UserMapper",
+                "返回值1": document.getElementById("返回值1").value || "User",
+                "查询Dto": document.getElementById("查询Dto").value || "UserQueryDto",
+                "参数1": getDefaultParamName(document.getElementById("查询Dto").value) || "userQueryDto",
+                "插入Dto": document.getElementById("插入Dto").value || "User",
+                "参数2": getDefaultParamName(document.getElementById("插入Dto").value) || "user",
+                "编辑Dto": document.getElementById("插入Dto").value || "User",
+                "参数3": getDefaultParamName(document.getElementById("插入Dto").value) || "user"
+            };
+
+            const regex = /接口名|返回值1|查询Dto|参数1|插入Dto|参数2|编辑Dto|参数3/g;
+
+            const result = template.replace(regex, match => replacements[match]);
+
+            document.getElementById("result").value = result;
+        }
+
+        function copyToClipboard() {
+            const resultText = document.getElementById("result").value;
+            if (resultText) {
+                navigator.clipboard.writeText(resultText)
+                    .then(() => {
+                        alert("代码已复制到剪贴板！");
+                    })
+                    .catch(err => {
+                        alert("复制失败，错误：" + err);
+                    });
+            } else {
+                alert("没有生成代码可复制！");
+            }
+        }
+    </script>
+
+</body>
+</html>
