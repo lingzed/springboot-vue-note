@@ -8,8 +8,22 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             background-color: #f5f5f5;
+        }
+
+        .navbar {
+            display: flex;
+            background-color: #333;
+            padding: 0.5em;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5em 1em;
+        }
+        .navbar a:hover {
+            background-color: #575757;
         }
 
         .input-container {
@@ -82,45 +96,52 @@
     </style>
 </head>
 <body>
+    <nav class="navbar">
+        <a href="mapper代码生成.html">mapper代码生成</a>
+        <a href="service接口代码生成.html">service接口代码生成</a>
+        <a href="service实现代码生成.html">service实现代码生成</a>
+    </nav>
 
-    <h1>Service实现代码生成</h1>
+    <div style="padding: 0 20px 0">
+        <h1>Service实现代码生成</h1>
 
-    <div>
-        <div class="input-container">
-            <label for="Mapper接口类型">Mapper接口类型:</label>
-            <input type="text" id="Mapper接口类型" placeholder="例如：UserMapper">
-        </div>
-        <div class="input-container">
-            <label for="Service接口类型">Service接口类型:</label>
-            <input type="text" id="Service接口类型" placeholder="例如：UserService">
-        </div>
-        <div class="input-container">
-            <label for="实现类名">实现类名:</label>
-            <input type="text" id="实现类名" placeholder="例如：UserServiceImpl">
-        </div>
-        <div class="input-container">
-            <label for="返回值1"><span style="color: red;">*</span>返回的po或vo:</label>
-            <input type="text" id="返回值1" placeholder="例如：User">
-        </div>
-        <div class="input-container">
-            <label for="查询Dto"><span style="color: red;">*</span>查询Dto:</label>
-            <input type="text" id="查询Dto" placeholder="例如：UserQueryDto">
-        </div>
-        <!-- <div class="input-container">
-            <label for="参数1">查询Dto参数名:</label>
-            <input type="text" id="参数1" placeholder="例如：userQueryDto">
-        </div> -->
-        <div class="input-container">
-            <label for="插入Dto"><span style="color: red;">*</span>实体类型:</label>
-            <input type="text" id="插入Dto" placeholder="例如：User">
+        <div>
+            <div class="input-container">
+                <label for="Mapper接口类型">Mapper接口类型:</label>
+                <input type="text" id="Mapper接口类型" placeholder="例如：UserMapper">
+            </div>
+            <div class="input-container">
+                <label for="Service接口类型">Service接口类型:</label>
+                <input type="text" id="Service接口类型" placeholder="例如：UserService">
+            </div>
+            <div class="input-container">
+                <label for="实现类名">实现类名:</label>
+                <input type="text" id="实现类名" placeholder="例如：UserServiceImpl">
+            </div>
+            <div class="input-container">
+                <label for="返回值1"><span style="color: red;">*</span>返回的po或vo:</label>
+                <input type="text" id="返回值1" placeholder="例如：User">
+            </div>
+            <div class="input-container">
+                <label for="查询Dto"><span style="color: red;">*</span>查询Dto:</label>
+                <input type="text" id="查询Dto" placeholder="例如：UserQueryDto">
+            </div>
+            <!-- <div class="input-container">
+                <label for="参数1">查询Dto参数名:</label>
+                <input type="text" id="参数1" placeholder="例如：userQueryDto">
+            </div> -->
+            <div class="input-container">
+                <label for="插入Dto"><span style="color: red;">*</span>实体类型:</label>
+                <input type="text" id="插入Dto" placeholder="例如：User">
+            </div>
+
+            <button onclick="generateCode()">生成代码</button>
+            <button onclick="copyToClipboard()">复制代码</button>
         </div>
 
-        <button onclick="generateCode()">生成代码</button>
-        <button onclick="copyToClipboard()">复制代码</button>
+        <h2>生成的代码:</h2>
+        <textarea id="result" readonly></textarea>
     </div>
-
-    <h2>生成的代码:</h2>
-    <textarea id="result" readonly></textarea>
 
     <script>
         const template = `package com.ling.service.impl;
@@ -340,7 +361,6 @@ public class 实现类名 implements Service接口类型 {
                 return type ? type.charAt(0).toLowerCase() + type.slice(1) : '';
             };
             const val = document.getElementById("插入Dto").value;
-            console.log(document.getElementById("Mapper接口类型").value)
             const replacements = {
                 "Mapper接口类型": document.getElementById("Mapper接口类型").value || (val ? val + "Mapper" : "UserMapper"),
                 "Service接口类型": document.getElementById("Service接口类型").value || (val ? val + "Service" : "UserService"),
@@ -349,7 +369,7 @@ public class 实现类名 implements Service接口类型 {
                 "返回值1": document.getElementById("返回值1").value || "User",
                 "返变量1": getDefaultParamName(document.getElementById("返回值1").value) || "user",
                 "查询Dto": document.getElementById("查询Dto").value || "UserQueryDto",
-                "参数1": document.getElementById("参数1").value || getDefaultParamName(document.getElementById("查询Dto").value) || "userQueryDto",
+                "参数1": getDefaultParamName(document.getElementById("查询Dto").value) || "userQueryDto",
                 "插入Dto": val || "User",
                 "参数2": getDefaultParamName(val) || "user",
                 "插入_Dto": val ? val + "Dto" : "UserDto",

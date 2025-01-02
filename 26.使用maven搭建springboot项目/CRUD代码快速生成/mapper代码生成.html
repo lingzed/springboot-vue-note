@@ -8,8 +8,22 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             background-color: #f5f5f5;
+        }
+
+        .navbar {
+            display: flex;
+            background-color: #333;
+            padding: 0.5em;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5em 1em;
+        }
+        .navbar a:hover {
+            background-color: #575757;
         }
 
         .input-container {
@@ -83,33 +97,40 @@
     </style>
 </head>
 <body>
+    <nav class="navbar">
+        <a href="mapper代码生成.html">mapper代码生成</a>
+        <a href="service接口代码生成.html">service接口代码生成</a>
+        <a href="service实现代码生成.html">service实现代码生成</a>
+    </nav>
 
-    <h1>Mapper接口代码生成</h1>
+    <div style="padding: 0 20px 0">
+        <h1>Mapper接口代码生成</h1>
 
-    <div>
-        <div class="input-container">
-            <label for="接口名">接口名:</label>
-            <input type="text" id="接口名" placeholder="例如：UserMapper">
-        </div>
-        <div class="input-container">
-            <label for="返回值1">返回的po或vo:</label>
-            <input type="text" id="返回值1" placeholder="例如：User或UserVo">
-        </div>
-        <div class="input-container">
-            <label for="查询Dto">查询Dto:</label>
-            <input type="text" id="查询Dto" placeholder="例如：UserQueryDto">
-        </div>
-        <div class="input-container">
-            <label for="插入Dto">实体类型:</label>
-            <input type="text" id="插入Dto" placeholder="例如：User">
+        <div>
+            <div class="input-container">
+                <label for="接口名">接口名:</label>
+                <input type="text" id="接口名" placeholder="例如：UserMapper">
+            </div>
+            <div class="input-container">
+                <label for="返回值1">返回的po或vo:</label>
+                <input type="text" id="返回值1" placeholder="例如：User或UserVo">
+            </div>
+            <div class="input-container">
+                <label for="查询Dto">查询Dto:</label>
+                <input type="text" id="查询Dto" placeholder="例如：UserQueryDto">
+            </div>
+            <div class="input-container">
+                <label for="插入Dto">实体类型:</label>
+                <input type="text" id="插入Dto" placeholder="例如：User">
+            </div>
+
+            <button onclick="generateCode()">生成代码</button>
+            <button onclick="copyToClipboard()">复制代码</button>
         </div>
 
-        <button onclick="generateCode()">生成代码</button>
-        <button onclick="copyToClipboard()">复制代码</button>
+        <h2>生成的代码:</h2>
+        <textarea id="result" readonly></textarea>
     </div>
-
-    <h2>生成的代码:</h2>
-    <textarea id="result" readonly></textarea>
 
     <script>
         const template = 
