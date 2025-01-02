@@ -126,6 +126,7 @@
 
             <button onclick="generateCode()">生成代码</button>
             <button onclick="copyToClipboard()">复制代码</button>
+            <button onclick="downloadResultFile()">下载代码</button>
         </div>
 
         <h2>生成的代码:</h2>
@@ -214,7 +215,7 @@ public interface 接口名 {
 }
 `;
 
-        function generateCode() {
+        function replaceeCode() {
             const getDefaultParamName = (type) => {
                 // 如果没有输入参数名，默认为类型名首字母小写
                 return type ? type.charAt(0).toLowerCase() + type.slice(1) : '';
@@ -235,8 +236,14 @@ public interface 接口名 {
 
             const result = template.replace(regex, match => replacements[match]);
 
-            document.getElementById("result").value = result;
+            return result;
         }
+
+        const generateCode = () => {
+        	const result = replaceeCode();
+        	document.getElementById("result").value = result;
+        }
+        
 
         function copyToClipboard() {
             const resultText = document.getElementById("result").value;
@@ -251,6 +258,18 @@ public interface 接口名 {
             } else {
                 alert("没有生成代码可复制！");
             }
+        }
+
+        const downloadResultFile = () => {
+        	const filename = (document.getElementById("接口名").value || "UserMapper") + ".java";
+        	const result = replaceeCode();
+        	const blob = new Blob([result], { type: "text/plain" });
+        	const url = URL.createObjectURL(blob);
+        	const a = document.createElement("a");
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
         }
     </script>
 

@@ -137,6 +137,7 @@
 
             <button onclick="generateCode()">生成代码</button>
             <button onclick="copyToClipboard()">复制代码</button>
+            <button onclick="downloadResultFile()">下载代码</button>
         </div>
 
         <h2>生成的代码:</h2>
@@ -355,7 +356,7 @@ public class 实现类名 implements Service接口类型 {
 }
 `;
 
-        function generateCode() {
+        function replaceCode() {
             const getDefaultParamName = (type) => {
                 // 如果没有输入参数名，默认为类型名首字母小写
                 return type ? type.charAt(0).toLowerCase() + type.slice(1) : '';
@@ -380,6 +381,11 @@ public class 实现类名 implements Service接口类型 {
 
             const result = template.replace(regex, match => replacements[match]);
 
+            return result;
+        }
+
+        const generateCode = () => {
+            const result = replaceCode();
             document.getElementById("result").value = result;
         }
 
@@ -396,6 +402,20 @@ public class 实现类名 implements Service接口类型 {
             } else {
                 alert("没有生成代码可复制！");
             }
+        }
+
+        const downloadResultFile = () => {
+            const val1 = document.getElementById("插入Dto").value;
+            const val2 = document.getElementById("实现类名").value;
+            const filename = val2 || (val1 ? val1 + "ServiceImpl" : "UserServiceImpl") + ".java";
+            const result = replaceCode();
+            const blob = new Blob([result], { type: "text/plain" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
         }
     </script>
 
