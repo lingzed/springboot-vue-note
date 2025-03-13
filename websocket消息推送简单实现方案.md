@@ -197,6 +197,8 @@ public class UserIdHandshakeInterceptor implements HandshakeInterceptor {
 
 创建 `WebSocketConfig` 进行配置：
 
+> **一定要声明`@EnableWebSocket`启用**
+
 ```java
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
@@ -229,7 +231,7 @@ setAllowedOrigins("http://localhost:8080", "http://localhost:8081");
 
 URL只需要给定域名和端口，不要加路径（如 `http://localhost:8080/app` 是无效的）。
 
-> **一定要声明`@EnableWebSocket`启用**
+另外如果我们还配置了HTTP请求的跨域，那么HTTP请求的跨域不会影响websocket的跨域，websocket的跨域仍然要配置(反之亦然)。两个配置是相互独立的，不是说一方配置了跨域另一方就不需要配置了。毕竟HTTP和websocket是不同的协议(`http://`和`ws://`)。
 
 
 
