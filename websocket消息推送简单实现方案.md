@@ -11,8 +11,6 @@
 
 ## 添加 WebSocket 依赖
 
-如果你的项目还没有 WebSocket 依赖，先在 `pom.xml` 中添加：
-
 ```xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
@@ -190,6 +188,47 @@ public class UserIdHandshakeInterceptor implements HandshakeInterceptor {
     }
 }
 ```
+
+
+
+### 拦截会话
+
+直接将参数通过URL传递是一种不安全的方式，容易被篡改和窃取。如果想要获取一个唯一标识，可以通过session，一般我们会将用户的id存储在session中，而在握手拦截器中可以拦截session，这样我们能从session中获取对应的id：
+
+```java
+import org.springframework.http.server.ServerHttpRequest;
+import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.http.server.ServletServerHttpRequest;
+import org.springframework.web.socket.WebSocketHandler;
+import org.springframework.web.socket.server.HandshakeInterceptor;
+import java.util.Map;
+
+public class UserIdHandshakeInterceptor implements HandshakeInterceptor {
+
+    // 握手前的处理（关键代码）
+    public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
+                                   Map<String, Object> attributes) {
+        if (request instanceof ServletServerHttpRequest) {
+            ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
+
+            // 可以选择将id作为参数传递，但这样不安全
+            // String userId = servletRequest.getServletRequest().getParameter("userId");
+            // 所以，我选择从会话中获取id
+            HttpSession session = servletRequest.getServletRequest().getSession(false);
+            if (Objects.isNull(session)) {
+                log.error("会话过期，ws连接关闭");
+                return false;
+            }
+            UserInfoSessionDto userinfo = (UserInfoSessionDto) session.getAttribute(Constant.USERINFO_SESSION_KEY);
+
+            attributes.put("userId", userinfo.getUserId()); // 存入WebSocketSession属性
+        }
+        return true; // 返回true表示允许握手
+    }
+}
+```
+
+`getSession(false)`中的`false`表示如果之前有会话返回之前的会话，否则返回`null`，为`true`表示之前如果没用会话的话，创建一个新会话。因为当前的场景必须是登录成功后如果没用会话不能返回新会话，所以用`false`。
 
 
 
