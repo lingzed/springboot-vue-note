@@ -310,7 +310,7 @@ public class UserMessageService {
 
 
 
-# 3 前端实现
+# 前端实现
 
 在 Vue3 前端，建立 WebSocket 连接：
 
@@ -361,3 +361,50 @@ onUnmounted(() => {
   </div>
 </template>
 ```
+
+
+
+# ws连接时获取的`Session`为`null`
+
+上面我说过，直接从session中获取用户的id，这么做有个前提就是session必须存在，但是直接使用postman或浏览器发起ws连接时，通常不会携带JSESSIONID，我们都知道服务器如何获取会话都是靠浏览器发送的JSESSIONID来找到会话的，如果没有这个Cookie请求头携带JSESSIONID的话，服务器就找不到会话对象。
+
+所以在使用postman工具建立ws连接时，需要在请求头中手动添加Cookie项：
+
+![image-20250325153626883](assets/image-20250325153626883.png)
+
+而浏览器则更加特殊，我们建立ws连接时：
+
+```js
+socket = new WebSocket("ws://localhost:8080/ws");	// 连接到/ws
+```
+
+在`WebSocket` 中**不支持手动添加 `Cookie` 头**，不像 `fetch` 或 `XMLHttpRequest`那样：
+
+```js
+// 这种方式 WebSocket 不支持
+const socket = new WebSocket("ws://localhost:8091/web/ws", {
+    headers: { "Cookie": document.cookie } // ❌ 不支持
+});
+```
+
+也就是说没法像postman那样通过Cookie头携带JSESSIONID。
+
+而客户端若将JSESSIONID发送给服务器通常有两种方式：前端和后端同源 && 请求参数携带JSESSIONID。
+
+**前端和后端同源**
+
+前端和后端同源的话，浏览器会自动携带Cookie。
+
+**请求参数携带JSESSIONID**
+
+如下：
+
+```js
+socket = new WebSocket("ws://localhost:8080/ws?JSESSIONID=XXXX");	// 连接到/ws
+```
+
+不过这么做可能会导致JSESSIONID被篡改。
+
+因为目前的项目都是前后端分离的场景，所以第一种方案不作考虑，如果要使用第二种，为了防止篡改可以对参数进行加密，比如JWT，对称加密，非对称加密，哈希加密等。
+
+其实我们的目标就是获取userId，不如直接传递userId，对userId进行加密。
